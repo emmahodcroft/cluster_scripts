@@ -14,6 +14,7 @@ import { parseAminoacidMutation } from 'src/components/Common/parseAminoacidMuta
 import { parseNucleotideMutation } from 'src/components/Common/parseNucleotideMutation'
 import { formatMutation } from 'src/components/Common/formatMutation'
 import { AMINOACID_NAMES, GENE_NAMES, NUCELOTIDE_NAMES } from 'src/names'
+import { colorHash } from 'src/helpers/colorHash'
 
 const clusters = getClusters()
 const clusterNames = getClusterNames()
@@ -253,6 +254,44 @@ export function VariantLinkBadge({ name, href, prefix }: VariantLinkBadgeProps) 
   )
 }
 
+export const ColoredComponent = styled.span<{ $color: string }>`
+  background-color: ${(props) => props.$color};
+`
+
+export interface LineageLinkBadgeProps {
+  name: string
+  href?: string
+  prefix?: string
+  report?: boolean
+}
+
+export function LineageLinkBadge({ name, href, prefix, report }: LineageLinkBadgeProps) {
+  const url = useMemo(
+    // prettier-ignore
+    () => (href ?? report ? `https://cov-lineages.org/global_report_${name}.html` : ''),
+    [href, report, name],
+  )
+  const tooltip = useMemo(() => `Pango Lineage ${name}`, [name])
+  const components = useMemo(() => name.split('.'), [name])
+
+  return (
+    <LinkUnstyled href={url}>
+      <MutationBadgeBox title={tooltip}>
+        <MutationWrapper>
+          {prefix && <PrefixText>{prefix}</PrefixText>}
+          {components.map((component, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <ColoredComponent $color={colorHash(component)} key={`${component}-${i}`}>
+              {component}
+              {i < components.length - 1 && <span>{'.'}</span>}
+            </ColoredComponent>
+          ))}
+        </MutationWrapper>
+      </MutationBadgeBox>
+    </LinkUnstyled>
+  )
+}
+
 /** Shorter convenience alias for NucleotideMutationBadge */
 export function NucMut({ mut }: { mut: string }) {
   return <NucleotideMutationBadge mutation={mut} />
@@ -271,4 +310,9 @@ export function Var({ name, href, prefix = 'Variant' }: { name: string; href?: s
 /** Shorter convenience alias for VariantLinkBadge */
 export function Mut({ name, href, prefix = 'Mutation' }: { name: string; href?: string; prefix?: string }) {
   return <VariantLinkBadge name={name} href={href} prefix={prefix} />
+}
+
+/** Shorter convenience alias for LineageLinkBadge */
+export function Lin({ name, href, prefix = '', report }: LineageLinkBadgeProps) {
+  return <LineageLinkBadge name={name} href={href} prefix={prefix} report={report} />
 }

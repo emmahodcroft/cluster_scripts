@@ -11,12 +11,11 @@ import {
   Label,
   Row,
 } from 'reactstrap'
-import { ColoredCircle } from 'src/components/Common/ColoredCircle'
 import styled from 'styled-components'
 
 import type { CountryState } from 'src/components/CountryDistribution/CountryDistributionPage'
 import { theme } from 'src/theme'
-import { getCountryColor, getCountryStrokeDashArray } from 'src/io/getCountryColor'
+import { getCountryColor, getCountryFlag, getCountryStrokeDashArray } from 'src/io/getCountryColor'
 import { CardCollapsible } from 'src/components/Common/CardCollapsible'
 import { ColoredHorizontalLineIcon } from '../Common/ColoredHorizontalLineIcon'
 
@@ -46,7 +45,7 @@ export function CountryFilterCheckbox({ country, enabled, withIcons, onFilterCha
       <Label htmlFor={CSS.escape(country)} check>
         <Input id={CSS.escape(country)} type="checkbox" checked={enabled} onChange={onChange} />
         {withIcons ? (
-          <ColoredCircle $color={getCountryColor(country)} $size={14} />
+          <span>{getCountryFlag(country)}</span>
         ) : (
           <ColoredHorizontalLineIcon
             width={theme.plot.country.legend.lineIcon.width}

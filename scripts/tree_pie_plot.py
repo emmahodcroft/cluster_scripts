@@ -295,7 +295,7 @@ def list_parent_countries(wanted_country, second_country):
 fs = 16
 fig = plt.figure(figsize=(12,18))
 ax = fig.add_subplot(1,1,1)
-Phylo.draw(cluster2, label_func=lambda x:'', axes=ax),
+Phylo.draw(cluster2, label_func=lambda x:'', axes=ax,
            branch_labels=lambda x: ",".join([f"{a}{p+1}{d}" for a,p,d in x.mutations]))
 
 for node in cluster2.find_clades(order="preorder"):

@@ -239,7 +239,7 @@ for clus in clus_to_run:
             temp_meta = meta[meta['division'].isin([coun])]
         else:
             temp_meta = meta[meta['country'].isin([coun])]
-        all_dates = [datetime.datetime.strptime(x, '%Y-%m-%d') for x in temp_meta["date"] if len(x) is 10 and "-XX" not in x and datetime.datetime.strptime(x, '%Y-%m-%d') >= cutoffDate]
+        all_dates = [datetime.datetime.strptime(x, '%Y-%m-%d') for x in temp_meta["date"] if len(x) == 10 and "-XX" not in x and datetime.datetime.strptime(x, '%Y-%m-%d') >= cutoffDate]
         if len(all_dates) == 0:
             country_info.loc[coun].sept_oct_freq = 0
         else:
@@ -289,7 +289,7 @@ for clus in clus_to_run:
         #week 20
         for ri, row in temp_meta.iterrows():
             dat = row.date
-            if len(dat) is 10 and "-XX" not in dat: # only take those that have real dates
+            if len(dat) == 10 and "-XX" not in dat: # only take those that have real dates
                 dt = datetime.datetime.strptime(dat, '%Y-%m-%d')
                 #exclude sequences with identical dates & underdiverged
                 if coun == "Ireland" and dat == "2020-09-22":
@@ -532,7 +532,7 @@ for clus in clus_to_run:
                 counts_by_week = defaultdict(int)
                 temp_meta = meta[meta['country'].isin([coun])]
                 for dat in temp_meta['date']:
-                    if len(dat) is 10 and "-XX" not in dat: # only take those that have real dates
+                    if len(dat) == 10 and "-XX" not in dat: # only take those that have real dates
                         dt = datetime.datetime.strptime(dat, '%Y-%m-%d')
                         wk = dt.isocalendar()[1] #returns ISO calendar week
                         counts_by_week[wk]+=1
@@ -554,7 +554,7 @@ for clus in clus_to_run:
                 color='tab:blue'
                 ax1.set_ylabel('New Cases', color=color)
                 lines.append(ax1.plot(case_week_as_date[:-1] , case_data.cases[:-1], color=color, label='cases per week')[0])
-                #if coun is not 'Norway':
+                #if coun != 'Norway':
                 #    lines.append(ax1.plot(case_week_as_date , case_data.cases*(1 - logistic(days, rates[coun]['center'], rates[coun]['t50']) ), color=color, ls='--', label='cases per week w/o cluster')[0])
                 ax1.tick_params(axis='y', labelcolor=color)
                 ax1.set_yscale("log")
@@ -570,7 +570,7 @@ for clus in clus_to_run:
                 ax2.set_yscale("log")
 
                 fig.autofmt_xdate(rotation=30)
-                if coun is 'Norway':
+                if coun == 'Norway':
                     plt.legend(lines, ['cases per week', 'total sequences', 'sequences in cluster'], loc=3)
                 else:
                     plt.legend(lines, ['cases per week', #'cases per week w/o cluster',

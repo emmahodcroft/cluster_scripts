@@ -1,7 +1,7 @@
 version: ~> 1.0
 
 os: linux
-dist: bionic
+dist: focal
 
 branches:
   only:
@@ -18,7 +18,7 @@ cache:
   - "./web/.cache"
 
 before_install:
-  - pip install awscli
+  - pip install awscli flake8
   - cd web
 
 install:
@@ -28,6 +28,7 @@ before_script:
   - cp .env.example .env
 
 script:
+  - flake8 .. --count --select=E9,F63,F7 --show-source --statistics  # ,F82
   - yarn lint:ci
   - yarn test:coverage
 

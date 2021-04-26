@@ -89,7 +89,7 @@ for clus in clusters.keys():
             temp_meta = meta[meta['division'].isin([coun])]
         else:
             temp_meta = meta[meta['country'].isin([coun])]
-        all_dates = [datetime.datetime.strptime(x, '%Y-%m-%d') for x in temp_meta["date"] if len(x) is 10 and "-XX" not in x and datetime.datetime.strptime(x, '%Y-%m-%d') >= cutoffDate]
+        all_dates = [datetime.datetime.strptime(x, '%Y-%m-%d') for x in temp_meta["date"] if len(x) == 10 and "-XX" not in x and datetime.datetime.strptime(x, '%Y-%m-%d') >= cutoffDate]
         country_info.loc[coun].sept_aug_freq = round(len(herbst_dates)/len(all_dates),2)
 
     print(f"\nCluster {clus}")
@@ -117,7 +117,7 @@ for clus in clusters.keys():
         #week 20
         for ri, row in temp_meta.iterrows():
             dat = row.date
-            if len(dat) is 10 and "-XX" not in dat: # only take those that have real dates
+            if len(dat) == 10 and "-XX" not in dat: # only take those that have real dates
                 dt = datetime.datetime.strptime(dat, '%Y-%m-%d')
                 #exclude sequences with identical dates & underdiverged
                 if coun == "Ireland" and dat == "2020-09-22":
@@ -230,7 +230,7 @@ for coun, ax in zip(countries_to_plot, axs[1:]):
         patch = mpatches.Patch(color=clusters[clus]['col'], label=lab)
 
         #exclude 501 for now (not present)
-        if clus is not "S501":
+        if clus != "S501":
             ptchs.append(patch)
         if i == len(clusters)-1 :
             ax.fill_between(week_as_date, cluster_count/total_count, 1, facecolor=grey_color)

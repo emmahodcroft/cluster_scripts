@@ -364,7 +364,7 @@ for clus in clus_to_run:
             temp_meta = meta[meta['division'].isin([coun])]
         else:
             temp_meta = meta[meta['country'].isin([coun])]
-        all_dates = [datetime.datetime.strptime(x, '%Y-%m-%d') for x in temp_meta["date"] if len(x) is 10 and "-XX" not in x and datetime.datetime.strptime(x, '%Y-%m-%d') >= cutoffDate]
+        all_dates = [datetime.datetime.strptime(x, '%Y-%m-%d') for x in temp_meta["date"] if len(x) == 10 and "-XX" not in x and datetime.datetime.strptime(x, '%Y-%m-%d') >= cutoffDate]
         if len(all_dates) == 0:
             country_info.loc[coun].sept_oct_freq = 0
         else:
@@ -400,13 +400,13 @@ for clus in clus_to_run:
         if 'url_params' in clusters[clus]:
             url_params = clusters[clus]['url_params']
 
-#        if clus is "S501":
+#        if clus == "S501":
 #        #    col = "c=gt-S_501&"
 #            filt = ""
-#        if clus is "S69":
+#        if clus == "S69":
 #            col = "c=gt-S_69,501,453&"
 #            filt = ""
-#        if clus is "S453":
+#        if clus == "S453":
 #            col = "c=gt-S_453&"
 
         # don't print DanishCluster in 'all tables'
@@ -415,7 +415,7 @@ for clus in clus_to_run:
             with open(f"{tables_path}all_tables.md", 'a') as fh:
                 fh.write(f'\n\n## {clus_display}\n')
                 fh.write(f"[Focal Build](https://nextstrain.org/groups/neherlab/ncov/{clus_display}?{url_params})\n\n")
-                if clus is "S501":
+                if clus == "S501":
                     fh.write(f"Note any pre-2020 Chinese sequences are from SARS-like viruses in bats (not SARS-CoV-2).\n")
                     fh.write(f"Note that this mutation has multiple amino-acid mutants - these numbers "
                             "refer to _all_ these mutations (Y, S, T).\n")
@@ -426,7 +426,7 @@ for clus in clus_to_run:
         with open(f"{tables_path}{clus_display}_table.md", 'w') as fh:
             fh.write(f'\n\n## {clus_display}\n')
             fh.write(f"[Focal Build](https://nextstrain.org/groups/neherlab/ncov/{clus_display}?{url_params})\n\n")
-            if clus is "S501":
+            if clus == "S501":
                 fh.write(f"Note any pre-2020 Chinese sequences are from SARS-like viruses in bats (not SARS-CoV-2).\n")
                 fh.write(f"Note that this mutation has multiple amino-acid mutants - these numbers "
                           "refer to _all_ these mutations (Y, S, T).\n")
@@ -465,7 +465,7 @@ for clus in clus_to_run:
         #week 20
         for ri, row in temp_meta.iterrows():
             dat = row.date
-            if len(dat) is 10 and "-XX" not in dat: # only take those that have real dates
+            if len(dat) == 10 and "-XX" not in dat: # only take those that have real dates
                 dt = datetime.datetime.strptime(dat, '%Y-%m-%d')
                 #exclude sequences with identical dates & underdiverged
                 if coun == "Ireland" and dat == "2020-09-22":

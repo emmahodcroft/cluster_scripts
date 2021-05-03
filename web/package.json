@@ -95,6 +95,7 @@
     "react-loader-spinner": "3.1.14",
     "react-reactstrap-pagination": "2.0.3",
     "react-redux": "7.2.1",
+    "react-resize-detector": "6.7.0",
     "react-select": "4.0.2",
     "react-share": "4.3.1",
     "react-super-responsive-table": "5.2.0",

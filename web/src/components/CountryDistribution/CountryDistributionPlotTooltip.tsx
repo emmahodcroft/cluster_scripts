@@ -4,7 +4,7 @@ import { sortBy, reverse } from 'lodash'
 import styled from 'styled-components'
 import { Props as DefaultTooltipContentProps } from 'recharts/types/component/DefaultTooltipContent'
 
-import { formatDate, formatInteger, formatProportion } from 'src/helpers/format'
+import { formatDateBiweekly, formatInteger, formatProportion } from 'src/helpers/format'
 import { getClusterColor } from 'src/io/getClusters'
 import { ColoredBox } from '../Common/ColoredBox'
 
@@ -47,7 +47,7 @@ export function CountryDistributionPlotTooltip(props: DefaultTooltipContentProps
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const week = formatDate(payload[0]?.payload.week)
+  const week = formatDateBiweekly(payload[0]?.payload.week)
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -58,7 +58,7 @@ export function CountryDistributionPlotTooltip(props: DefaultTooltipContentProps
 
   return (
     <Tooltip>
-      <TooltipTitle>{`Week: ${week}`}</TooltipTitle>
+      <TooltipTitle>{week}</TooltipTitle>
 
       <TooltipTable>
         <thead>

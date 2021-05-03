@@ -116,6 +116,7 @@ export const plot = {
   aspectRatio: 1.88,
   margin: { left: -20, top: 5, bottom: 5, right: 10 },
   tickStyle: { fontSize: 12 },
+  tickWidthMin: 70,
   tooltip: {
     background: white,
     table: {
